@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>QRカード</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #eee; font-family: "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; color: #33302b; }
+  .card { width: 100mm; margin: 10mm auto; padding: 9mm 8mm; background: #fffdf9; border: 1px solid #e7dfd0; text-align: center; }
+  .sub { color: #b4975a; letter-spacing: .3em; font-size: 9pt; }
+  h1 { font-family: "Cormorant Garamond", serif; font-weight: 500; font-size: 22pt; margin: 2mm 0 5mm; }
+  img { width: 52mm; height: 52mm; image-rendering: pixelated; }
+  p { font-size: 10pt; line-height: 1.8; margin: 5mm 0 0; }
+  .note { text-align: center; font-size: 13px; color: #666; }
+  @media print { body { background: #fff; } .note { display: none; } .card { border: 0; } }
+</style>
+</head>
+<body>
+<p class="note">このページを印刷して席や受付に置いてください。</p>
+<div class="card">
+  <div class="sub">WEDDING PHOTOS</div>
+  <h1 id="couple"></h1>
+  <img id="qrImg" alt="QR">
+  <p>スマホで読み取って<br>今日の写真をみんなでシェアしましょう</p>
+</div>
+<script src="qrcode.js"></script>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script>
+document.getElementById("couple").textContent = CFG.couple;
+const q = qrcode(0, "M");
+q.addData(new URL("index.html?k=" + encodeURIComponent(EVENT_CODE), location.href).href);
+q.make();
+document.getElementById("qrImg").src = q.createDataURL(10, 0);
+</script>
+</body>
+</html>
